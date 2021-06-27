@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace VeganStore.Models
 {
-    class Cart
+    public class Cart
     {
         private long id;
         private long user_id;
         private string created_at;
+
+        public Cart() { }
 
         public Cart(long id, long user_id, string created_at)
         {

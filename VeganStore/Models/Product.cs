@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace VeganStore.Models
 {
-    class Product
+    public class Product
     {
         private long id;
         private string name;
         private int quantity;
         private int price;
         private long suplier_id;
+
+        public Product()
+        {
+        }
 
         public Product(long id, string name, int quantity, int price, long suplier_id)
         {

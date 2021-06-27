@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace VeganStore.Models
 {
-    class Order
+    public class Order
     {
         private long id;
         private long product_id;
         private int quantity;
         private long cart_id;
 
-
+        public Order() { }
 
         public Order(long id, long product_id, int quantity, long cart_id, string created_time)
         {

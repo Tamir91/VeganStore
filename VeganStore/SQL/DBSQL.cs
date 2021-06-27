@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
+using VeganStore.Models;
 
 namespace VeganStore
 {
-    public class DBSQL:DBConnection
+    public class DBSQL : DBConnection
     {
         readonly private string DATA_BASE_NAME = "finalCSharp";
 
@@ -19,13 +20,14 @@ namespace VeganStore
             databaseName = DATA_BASE_NAME;
             userName = "root";
             password = string.Empty;
+            //password = "4652581";
         }
 
         public static DBSQL Instance
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new DBSQL();
                     DBConnection.Instance();
@@ -34,89 +36,290 @@ namespace VeganStore
             }
         }
 
-        protected Person dataSetRowToPersonObject(DataRow row)
+
+        protected Cart DataSetRowToCartObject(DataRow row)
         {
-            Person person = new Person();
-            person.Id = Convert.ToInt32(row["id"]);
-            person.CityCode = Convert.ToInt32(row["cityCode"]);
-            person.FirstName = row["firstName"].ToString();
-            person.LastName = row["lastName"].ToString();
-            person.UserName = row["userName"].ToString();
-            return person;
+            Cart cart = new Cart
+            {
+                Id = Convert.ToInt32(row["id"]),
+                User_id = Convert.ToInt32(row["user_id"]),
+                Created_at = row["created_at"].ToString() // What is correct type or name?
+            };
+            return cart;
         }
 
-        protected Person[] dataSetPersonToArrayOfObjects(DataSet dataSet)
+        protected Order DataSetRowToOrderObject(DataRow row)
         {
-            DataRowCollection data = dataSet.Tables[0].Rows;
-            Person[] persons = new Person[data.Count];
-
-            for (int i = 0; i < data.Count; i++)
-                persons[i] = dataSetRowToPersonObject(data[i]);
-
-            return persons;
+            Order order = new Order
+            {
+                Id = Convert.ToInt32(row["id"]),
+                Product_id = Convert.ToInt32(row["product_id"]),
+                Quantity = Convert.ToInt32(row["quantity"]),
+                Cart_id = Convert.ToInt32(row["cart_id"])
+            };
+            return order;
         }
 
-        public Person[] GetPersons()
+        protected Product DataSetRowToProductObject(DataRow row)
         {
+            Product product = new Product();
+            product.Id = Convert.ToInt32(row["id"].ToString());
+            product.Name = row["name"].ToString();
+            product.Quantity = Convert.ToInt32(row["quantity"]);
+            product.Price = Convert.ToInt32(row["price"]);
+            product.Suplier_id = Convert.ToInt32(row["suplier_id"]);
+
+            return product;
+        }
+
+        protected Suplier DataSetRowToSuplierObject(DataRow row)
+        {
+            Suplier suplier = new Suplier
+            {
+                Id = Convert.ToInt32(row["id"]), // Is convertion correct to long?
+                Name = row["name"].ToString(),
+                Phone = row["phone"].ToString()
+            };
+            return suplier;
+        }
+
+        protected User DataSetRowToUserObject(DataRow row)
+        {
+            User user = new User
+            {
+                Id = Convert.ToInt32(row["id"]), // Is convertion correct to long?
+                Name = row["name"].ToString(),
+                Role = row["role"].ToString()
+            };
+            return user;
+        }
+
+        /*
+                protected Cart[] GetCarts(DataSet dataSet)
+                {
+                    DataRowCollection data = dataSet.Tables[0].Rows;
+                    Cart[] carts = new Cart[data.Count];
+
+                    for (int i = 0; i < data.Count; i++)
+                        carts[i] = DataSetRowToCartObject(data[i]);
+
+                    return carts;
+                }
+
+                protected Order[] GetOrders(DataSet dataSet)
+                {
+                    DataRowCollection data = dataSet.Tables[0].Rows;
+                    Order[] orders = new Order[data.Count];
+
+                    for (int i = 0; i < data.Count; i++)
+                        orders[i] = DataSetRowToOrderObject(data[i]);
+
+                    return orders;
+                }
+
+                protected Product[] GetProducts(DataSet dataSet)
+                {
+                    DataRowCollection data = dataSet.Tables[0].Rows;
+                    Product[] products = new Product[data.Count];
+
+                    for (int i = 0; i < data.Count; i++)
+                        products[i] = DataSetRowToProductObject(data[i]);
+
+                    return products;
+                }
+
+                protected Suplier[] GetSupliers(DataSet dataSet)
+                {
+                    DataRowCollection data = dataSet.Tables[0].Rows;
+                    Suplier[] supliers = new Suplier[data.Count];
+
+                    for (int i = 0; i < data.Count; i++)
+                        supliers[i] = DataSetRowToSuplierObject(data[i]);
+
+                    return supliers;
+                }
+
+                protected User[] GetUsers(DataSet dataSet)
+                {
+                    DataRowCollection data = dataSet.Tables[0].Rows;
+                    User[] users = new User[data.Count];
+
+                    for (int i = 0; i < data.Count; i++)
+                        users[i] = DataSetRowToUserObject(data[i]);
+
+                    return users;
+                }
+
+
+                public Cart[] GetCarts()
+                {
+                    DataSet result;
+                    string cmdStr = "SELECT * FROM carts";
+
+                    using (MySqlCommand command = new MySqlCommand(cmdStr))
+                    {
+                        result = GetMultipleQuery(command);
+                    }
+
+                    return GetCarts(result);
+                }
+
+                public Order[] GetOrders()
+                {
+                    DataSet result;
+                    string cmdStr = "SELECT * from orders";
+
+                    using (MySqlCommand command = new MySqlCommand(cmdStr))
+                    {
+                        result = GetMultipleQuery(command);
+                    }
+
+                    return GetOrders(result);
+                }
+
+                public Product[] GetProducts()
+                {
+                    DataSet result;
+                    string cmdStr = "SELECT * FROM products";
+
+                    using (MySqlCommand command = new MySqlCommand(cmdStr))
+                    {
+                        result = GetMultipleQuery(command);
+                    }
+
+                    return GetProducts(result);
+                }
+
+                public Suplier[] GetSupliers()
+                {
+                    DataSet result;
+                    string cmdStr = "SELECT * FROM supliers";
+
+                    using (MySqlCommand command = new MySqlCommand(cmdStr))
+                    {
+                        result = GetMultipleQuery(command);
+                    }
+
+                    return GetSupliers(result);
+                }
+
+                public User[] GetUsers()
+                {
+                    DataSet result;
+                    string cmdStr = "SELECT * FROM users";
+
+                    using (MySqlCommand command = new MySqlCommand(cmdStr))
+                    {
+                        result = GetMultipleQuery(command);
+                    }
+
+                    return GetUsers(result);
+                }
+
+        */
+
+        //Test Generic function
+        public T[] GetData<T>()
+        {
+            string cmdStr = "SELECT * FROM ";
+
+            switch (typeof(T).Name)
+            {
+                case "Cart":
+                    cmdStr += " carts";
+                    break;
+                case "Order":
+                    cmdStr += " orders";
+                    break;
+                case "Product":
+                    cmdStr += " products";
+                    break;
+                case "Suplier":
+                    cmdStr += " suplier";
+                    break;
+                case "User":
+                    cmdStr += " user";
+                    break;
+                default:
+                    cmdStr = "";
+                    break;
+
+            }
             DataSet result;
-            string cmdStr = "SELECT * FROM persons";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
                 result = GetMultipleQuery(command);
             }
 
-            return dataSetPersonToArrayOfObjects(result);
+            return GetData<T>(result);
         }
 
-        protected City dataSetRowToCityObject(DataRow row)
-        {
-            City city = new City();
-            city.CityName = row["cityName"].ToString();
-            city.CityCode = Convert.ToInt32(row["cityCode"]);
-            city.Id = Convert.ToInt32(row["id"].ToString());
-            return city;
-        }
-
-        protected City[] dataSetCityToArrayOfObjects(DataSet dataSet)
+        //Test Generic function
+        protected T[] GetData<T>(DataSet dataSet)
         {
             DataRowCollection data = dataSet.Tables[0].Rows;
-            City[] cities = new City[data.Count];
+            T[] t = new T[data.Count];
 
             for (int i = 0; i < data.Count; i++)
-                cities[i] = dataSetRowToCityObject(data[i]);
-
-            return cities;
-        }
-
-        public City[] GetCities()
-        {
-            DataSet result;
-            string cmdStr = "SELECT * FROM city";
-
-            using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                result = GetMultipleQuery(command);
+                switch (typeof(T).Name)
+                {
+                    case "Cart":
+                        t[i] = (T)(object)DataSetRowToCartObject(data[i]);
+                        break;
+                    case "Order":
+                        t[i] = (T)(object)DataSetRowToOrderObject(data[i]);
+                        break;
+                    case "Product":
+                        t[i] = (T)(object)DataSetRowToProductObject(data[i]);
+                        break;
+                    case "Suplier":
+                        t[i] = (T)(object)DataSetRowToSuplierObject(data[i]);
+                        break;
+                    case "User":
+                        t[i] = (T)(object)DataSetRowToUserObject(data[i]);
+                        break;
+                    default:
+                        t[i] = (T)(object)null;
+                        break;
+                }
             }
-
-            return dataSetCityToArrayOfObjects(result);
+            return t;
         }
 
-        public DataSet GetCityByName(string cityName)
+
+        public DataSet GetCart(string cartName)
         {
             DataSet result;
-            string cmdStr = "SELECT * FROM city WHERE cityName=@cityName";
+            string cmdStr = "SELECT * FROM cart WHERE name=@cartName";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@cityName", cityName);
+                command.Parameters.AddWithValue("@productName", cartName);
                 result = GetMultipleQuery(command);
             }
 
             return result;
         }
 
-        public int GetCityMaxNumber()
+        public DataSet GetProduct(string productName)
+        {
+            DataSet result;
+            string cmdStr = "SELECT * FROM product WHERE name=@productName";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@productName", productName);
+                result = GetMultipleQuery(command);
+            }
+
+            return result;
+        }
+
+
+
+        /*public int GetCityMaxNumber()
         {
             int result;
             string cmdStr = "SELECT MAX(cityCode) FROM city";
@@ -127,32 +330,32 @@ namespace VeganStore
             }
 
             return result;
-        }
+        }*/
 
-        public void InsertCity(City Item)
+        public void InsertProduct(Product product)
         {
-            string cmdStr = "INSERT INTO city (cityCode, cityName) VALUES (@cityCode, @cityName)";
+            string cmdStr = "INSERT INTO products (id, name, quantity, price, suplier_id) VALUES (@id, @name, @quantity, @price)";
 
             using(MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@cityCode", Item.CityCode);
-                command.Parameters.AddWithValue("@cityName", Item.CityName);
+                command.Parameters.AddWithValue("@id", product.Id);
+                command.Parameters.AddWithValue("@name", product.Name);
+                command.Parameters.AddWithValue("@quantity", product.Quantity);
+                command.Parameters.AddWithValue("@price", product.Price);
 
                 ExecuteSimpleQuery(command);
             }
         }
 
-        public void InsertPerson(Person Item)
+        public void InsertPerson(User user)
         {
-            string cmdStr = "INSERT INTO persons (firstName, lastName, cityCode, userName, userPassword) VALUES (@firstName, @lastName, @cityCode, @userName, @userPassword)";
+            string cmdStr = "INSERT INTO persons (id, name, role) VALUES (@id, @name, @role)";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@firstname", Item.FirstName);
-                command.Parameters.AddWithValue("@lastName", Item.LastName);
-                command.Parameters.AddWithValue("@cityCode", Item.CityCode);
-                command.Parameters.AddWithValue("@userName", Item.UserName);
-                command.Parameters.AddWithValue("@userPassword", Item.UserPassword);
+                command.Parameters.AddWithValue("@name", user.Name);
+                command.Parameters.AddWithValue("@id", user.Id);
+                command.Parameters.AddWithValue("@role", user.Role);
 
                 ExecuteSimpleQuery(command);
             }
