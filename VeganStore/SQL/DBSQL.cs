@@ -23,7 +23,7 @@ namespace VeganStore
             //password = "4652581";
         }
 
-        public static DBSQL Instance
+        public new static DBSQL Instance
         {
             get
             {
