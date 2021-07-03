@@ -288,7 +288,37 @@ namespace VeganStore
             return t;
         }
 
+        // Get DataSet from table by name
+        public DataSet GetData<T>(string name)
+        {
+            DataSet result;
+            string cmdStr = "SELECT * FROM " + typeof(T).Name + " WHERE name=@name";
 
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@name", name);
+                result = GetMultipleQuery(command);
+            }
+
+            return result;
+        }
+
+        // Get DataSet from table by id
+        public DataSet GetData<T>(int id) // int or long?
+        {
+            DataSet result;
+            string cmdStr = "SELECT * FROM " + typeof(T).Name + " WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@name", id);
+                result = GetMultipleQuery(command);
+            }
+
+            return result;
+        }
+
+        /*
         public DataSet GetCart(string cartName)
         {
             DataSet result;
@@ -316,7 +346,7 @@ namespace VeganStore
 
             return result;
         }
-
+        */
 
 
         /*public int GetCityMaxNumber()
@@ -332,7 +362,36 @@ namespace VeganStore
             return result;
         }*/
 
-        public void InsertProduct(Product product)
+        public bool InsertCart(Cart cart)
+        {
+            string cmdStr = "INSERT INTO persons (id, user_id, created_at) VALUES (@id, @user_id, @created_at)";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@id", cart.Id);
+                command.Parameters.AddWithValue("@user_id", cart.User_id);
+                command.Parameters.AddWithValue("@created_at", cart.Created_at);
+
+                return ExecuteSimpleQuery(command);
+            }
+        }
+
+        public bool InsertOrder(Order order)
+        {
+            string cmdStr = "INSERT INTO persons (id, product_id, quantity, cart_id) VALUES (@id, @product_id, @quantity, @cart_id)";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@id", order.Id);
+                command.Parameters.AddWithValue("@product_id", order.Product_id);
+                command.Parameters.AddWithValue("@quantity", order.Quantity);
+                command.Parameters.AddWithValue("@cart_id", order.Cart_id);
+
+                return ExecuteSimpleQuery(command);
+            }
+        }
+
+        public bool InsertProduct(Product product)
         {
             string cmdStr = "INSERT INTO products (id, name, quantity, price, suplier_id) VALUES (@id, @name, @quantity, @price)";
 
@@ -343,11 +402,11 @@ namespace VeganStore
                 command.Parameters.AddWithValue("@quantity", product.Quantity);
                 command.Parameters.AddWithValue("@price", product.Price);
 
-                ExecuteSimpleQuery(command);
+                return ExecuteSimpleQuery(command);
             }
         }
 
-        public void InsertPerson(User user)
+        public bool InsertUser(User user)
         {
             string cmdStr = "INSERT INTO persons (id, name, role) VALUES (@id, @name, @role)";
 
@@ -357,23 +416,24 @@ namespace VeganStore
                 command.Parameters.AddWithValue("@id", user.Id);
                 command.Parameters.AddWithValue("@role", user.Role);
 
-                ExecuteSimpleQuery(command);
+                return ExecuteSimpleQuery(command);
             }
-        }
+        }    
 
-        public void InsertGrades(Grade Item)
+        public bool InsertSuplier(Suplier suplier)
         {
-            string cmdStr = "INSERT INTO grades (math, english, comp) VALUES (@math, @english, @comp)";
+            string cmdStr = "INSERT INTO supliers (id, name, phone) VALUES (@id, @name, @phone)";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@math", Item.Math);
-                command.Parameters.AddWithValue("@english", Item.English);
-                command.Parameters.AddWithValue("@comp", Item.Comp);
+                command.Parameters.AddWithValue("@id", suplier.Id);
+                command.Parameters.AddWithValue("@name", suplier.Name);
+                command.Parameters.AddWithValue("@phone", suplier.Phone);
 
-                ExecuteSimpleQuery(command);
+                return ExecuteSimpleQuery(command);
             }
         }
+
 
         public static string DatabaseName
         {
