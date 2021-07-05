@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="finalCSharp.sql" />
+    <Content Include="SQL\finalCSharp.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

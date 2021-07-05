@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VeganStore
@@ -42,12 +35,52 @@ namespace VeganStore
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnDeleteUser_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Product_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSuplierID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnUpdateSuplier_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddSuplier_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteSuplier_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSuplierPhone_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSuplierName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddNewUser_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnUpdateUser_Click(object sender, EventArgs e)
         {
 
         }
