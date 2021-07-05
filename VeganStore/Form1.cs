@@ -67,7 +67,12 @@ namespace VeganStore
 
         private void txtSuplierPhone_TextChanged(object sender, EventArgs e)
         {
-
+            /*
+            if (System.Text.RegularExpressions.Regex.IsMatch(txtSuplierPhone.Text, "^ [0-9]"))
+            {
+                txtSuplierPhone.Text = "";
+            }
+            */
         }
 
         private void txtSuplierName_TextChanged(object sender, EventArgs e)
