@@ -36,7 +36,6 @@ namespace VeganStore
             }
         }
 
-
         protected Cart DataSetRowToCartObject(DataRow row)
         {
             Cart cart = new Cart
@@ -433,7 +432,6 @@ namespace VeganStore
                 return ExecuteSimpleQuery(command);
             }
         }
-
 
         public static string DatabaseName
         {
