@@ -43,7 +43,7 @@ namespace VeganStore.Controllers
         {
             bool result = false;
 
-            if(!String.IsNullOrEmpty(id) && !String.IsNullOrEmpty(id))
+            if(!String.IsNullOrEmpty(id) && !String.IsNullOrWhiteSpace(id))
             {
                 // TODO: Implemet
             }
