@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
 using VeganStore.Models;
+using System.Collections;
 
 namespace VeganStore
 {
@@ -67,6 +68,8 @@ namespace VeganStore
             product.Quantity = Convert.ToInt32(row["quantity"]);
             product.Price = Convert.ToInt32(row["price"]);
             product.Suplier_id = Convert.ToInt32(row["suplier_id"]);
+            if(row.Table.Columns.Contains("suplier_name"))
+                product.Suplier_name = row["suplier_name"].ToString();
 
             return product;
         }
@@ -218,7 +221,7 @@ namespace VeganStore
         */
 
         //Test Generic function
-        public T[] GetData<T>()
+        public List<T> GetData<T>()
         {
             string cmdStr = "SELECT * FROM ";
 
@@ -231,13 +234,15 @@ namespace VeganStore
                     cmdStr += " orders";
                     break;
                 case "Product":
-                    cmdStr += " products";
+                    cmdStr = "SELECT pr.id, pr.name, pr.price, pr.quantity, pr.suplier_id, sp.name as suplier_name " +
+                             "FROM products pr " +
+                             "LEFT JOIN supliers sp ON pr.suplier_id=sp.id";
                     break;
                 case "Suplier":
-                    cmdStr += " suplier";
+                    cmdStr += " supliers";
                     break;
                 case "User":
-                    cmdStr += " user";
+                    cmdStr += " users";
                     break;
                 default:
                     cmdStr = "";
@@ -255,43 +260,42 @@ namespace VeganStore
         }
 
         //Test Generic function
-        protected T[] GetData<T>(DataSet dataSet)
+        protected List<T> GetData<T>(DataSet dataSet)
         {
             DataRowCollection data = dataSet.Tables[0].Rows;
-            T[] t = new T[data.Count];
+            List<T> list = new List<T>();
 
             for (int i = 0; i < data.Count; i++)
             {
                 switch (typeof(T).Name)
                 {
                     case "Cart":
-                        t[i] = (T)(object)DataSetRowToCartObject(data[i]);
+                        list.Add((T)(object)DataSetRowToCartObject(data[i]));
                         break;
                     case "Order":
-                        t[i] = (T)(object)DataSetRowToOrderObject(data[i]);
+                        list.Add((T)(object)DataSetRowToOrderObject(data[i]));
                         break;
                     case "Product":
-                        t[i] = (T)(object)DataSetRowToProductObject(data[i]);
+                        list.Add((T)(object)DataSetRowToProductObject(data[i]));
                         break;
                     case "Suplier":
-                        t[i] = (T)(object)DataSetRowToSuplierObject(data[i]);
+                        list.Add((T)(object)DataSetRowToSuplierObject(data[i]));
                         break;
                     case "User":
-                        t[i] = (T)(object)DataSetRowToUserObject(data[i]);
+                        list.Add((T)(object)DataSetRowToUserObject(data[i]));
                         break;
                     default:
-                        t[i] = (T)(object)null;
                         break;
                 }
             }
-            return t;
+            return list;
         }
 
         // Get DataSet from table by name
         public DataSet GetData<T>(string name)
         {
             DataSet result;
-            string cmdStr = "SELECT * FROM " + typeof(T).Name + " WHERE name=@name";
+            string cmdStr = "SELECT * FROM " + typeof(T).Name.ToLower() + "s WHERE name=@name";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
@@ -303,10 +307,10 @@ namespace VeganStore
         }
 
         // Get DataSet from table by id
-        public DataSet GetData<T>(int id) // int or long?
+        public DataSet GetData<T>(long id)
         {
             DataSet result;
-            string cmdStr = "SELECT * FROM " + typeof(T).Name + " WHERE id=@id";
+            string cmdStr = "SELECT * FROM " + typeof(T).Name.ToLower() + "s WHERE id=@id";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
@@ -317,57 +321,40 @@ namespace VeganStore
             return result;
         }
 
-        /*
-        public DataSet GetCart(string cartName)
+        public List<Product> GetProductsBySuplierID(long suplierID)
         {
             DataSet result;
-            string cmdStr = "SELECT * FROM cart WHERE name=@cartName";
+            string cmdStr = "SELECT * FROM products WHERE suplier_id=@suplierID";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@productName", cartName);
+                command.Parameters.AddWithValue("@suplierID", suplierID);
                 result = GetMultipleQuery(command);
             }
 
-            return result;
+            return GetProducts(result);
         }
 
-        public DataSet GetProduct(string productName)
+        public List<Product> GetProducts(DataSet dataSet)
         {
-            DataSet result;
-            string cmdStr = "SELECT * FROM product WHERE name=@productName";
+            DataRowCollection data = dataSet.Tables[0].Rows;
+            List<Product> list = new List<Product>();
 
-            using (MySqlCommand command = new MySqlCommand(cmdStr))
-            {
-                command.Parameters.AddWithValue("@productName", productName);
-                result = GetMultipleQuery(command);
+            for (int i = 0; i < data.Count; i++)
+            { 
+                list.Add((Product)DataSetRowToProductObject(data[i]));          
             }
-
-            return result;
+            return list;
         }
-        */
 
+        /*Inserts*/
 
-        /*public int GetCityMaxNumber()
+        public long InsertCart(Cart cart)
         {
-            int result;
-            string cmdStr = "SELECT MAX(cityCode) FROM city";
+            string cmdStr = "INSERT INTO carts (user_id, created_at) VALUES (@user_id, @created_at)";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                result = ExecuteScalarIntQuery(command);
-            }
-
-            return result;
-        }*/
-
-        public bool InsertCart(Cart cart)
-        {
-            string cmdStr = "INSERT INTO persons (id, user_id, created_at) VALUES (@id, @user_id, @created_at)";
-
-            using (MySqlCommand command = new MySqlCommand(cmdStr))
-            {
-                command.Parameters.AddWithValue("@id", cart.Id);
                 command.Parameters.AddWithValue("@user_id", cart.User_id);
                 command.Parameters.AddWithValue("@created_at", cart.Created_at);
 
@@ -375,13 +362,12 @@ namespace VeganStore
             }
         }
 
-        public bool InsertOrder(Order order)
+        public long InsertOrder(Order order)
         {
-            string cmdStr = "INSERT INTO persons (id, product_id, quantity, cart_id) VALUES (@id, @product_id, @quantity, @cart_id)";
+            string cmdStr = "INSERT INTO orders (product_id, quantity, cart_id) VALUES (@product_id, @quantity, @cart_id)";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@id", order.Id);
                 command.Parameters.AddWithValue("@product_id", order.Product_id);
                 command.Parameters.AddWithValue("@quantity", order.Quantity);
                 command.Parameters.AddWithValue("@cart_id", order.Cart_id);
@@ -390,36 +376,35 @@ namespace VeganStore
             }
         }
 
-        public bool InsertProduct(Product product)
+        public long InsertProduct(Product product)
         {
-            string cmdStr = "INSERT INTO products (id, name, quantity, price, suplier_id) VALUES (@id, @name, @quantity, @price)";
+            string cmdStr = "INSERT INTO products (name, quantity, price, suplier_id) VALUES (@name, @quantity, @price, @suplier_id)";
 
             using(MySqlCommand command = new MySqlCommand(cmdStr))
             {
-                command.Parameters.AddWithValue("@id", product.Id);
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@quantity", product.Quantity);
                 command.Parameters.AddWithValue("@price", product.Price);
+                command.Parameters.AddWithValue("@suplier_id", product.Suplier_id);
 
                 return ExecuteSimpleQuery(command);
             }
         }
 
-        public bool InsertUser(User user)
+        public long InsertUser(User user)
         {
-            string cmdStr = "INSERT INTO persons (id, name, role) VALUES (@id, @name, @role)";
+            string cmdStr = "INSERT INTO users (name, role) VALUES (@name, @role)";
 
             using (MySqlCommand command = new MySqlCommand(cmdStr))
             {
                 command.Parameters.AddWithValue("@name", user.Name);
-                command.Parameters.AddWithValue("@id", user.Id);
                 command.Parameters.AddWithValue("@role", user.Role);
 
                 return ExecuteSimpleQuery(command);
             }
         }    
 
-        public bool InsertSuplier(Suplier suplier)
+        public long InsertSuplier(Suplier suplier)
         {
             string cmdStr = "INSERT INTO supliers (id, name, phone) VALUES (@id, @name, @phone)";
 
@@ -431,6 +416,67 @@ namespace VeganStore
 
                 return ExecuteSimpleQuery(command);
             }
+        }
+
+        /*Updates*/
+
+        public long UpdateProduct(Product product)
+        {
+            string cmdStr = "UPDATE products SET name=@name, quantity=@quantity, price=@price WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@name", product.Name);
+                command.Parameters.AddWithValue("@id", product.Id);
+                command.Parameters.AddWithValue("@quantity", product.Quantity);
+                command.Parameters.AddWithValue("@price", product.Price);
+
+                return ExecuteSimpleQuery(command);
+            }
+        }
+
+        public long UpdateSuplier(Suplier suplier)
+        {
+            string cmdStr = "UPDATE supliers SET name=@name, phone=@phone WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@name", suplier.Name);
+                command.Parameters.AddWithValue("@id", suplier.Id);
+                command.Parameters.AddWithValue("@phone", suplier.Phone);
+
+                return ExecuteSimpleQuery(command);
+            }
+        }
+
+        public long UpdateUser(User user)
+        {
+            string cmdStr = "UPDATE users SET name=@name, role=@role WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@name", user.Name);
+                command.Parameters.AddWithValue("@id", user.Id);
+                command.Parameters.AddWithValue("@role", user.Role);
+
+                return ExecuteSimpleQuery(command);
+            }
+        }
+
+        /*Delete*/
+
+        public long DeleteRow<T>(long id)
+        {
+            long result = -1;
+            string cmdStr = "DELETE FROM " + typeof(T).Name.ToLower() + "s WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                result = ExecuteSimpleQuery(command);
+            }
+
+            return result;
         }
 
         public static string DatabaseName

@@ -13,6 +13,7 @@ namespace VeganStore.Models
         private int quantity;
         private int price;
         private long suplier_id;
+        private string suplier_name;
 
         public Product()
         {
@@ -32,5 +33,6 @@ namespace VeganStore.Models
         public int Quantity { get => quantity; set => quantity = value; }
         public int Price { get => price; set => price = value; }
         public long Suplier_id { get => suplier_id; set => suplier_id = value; }
+        public string Suplier_name { get => suplier_name; set => suplier_name = value; }
     }
 }

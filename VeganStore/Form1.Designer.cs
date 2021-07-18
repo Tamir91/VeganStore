@@ -30,19 +30,39 @@
         {
             this.tabsStore = new System.Windows.Forms.TabControl();
             this.Store = new System.Windows.Forms.TabPage();
+            this.btnBuy = new System.Windows.Forms.Button();
+            this.cmbUsersInStore = new System.Windows.Forms.ComboBox();
+            this.lsvCart = new System.Windows.Forms.ListView();
+            this.CartProdactName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CartProductQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lsvStore = new System.Windows.Forms.ListView();
+            this.StoreProductID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StoreProductName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StoreProductPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StoreProductQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmbSuplierInStore = new System.Windows.Forms.ComboBox();
             this.Cart = new System.Windows.Forms.TabPage();
             this.User = new System.Windows.Forms.TabPage();
+            this.lsvUser = new System.Windows.Forms.ListView();
+            this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.role = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnRemoveUser = new System.Windows.Forms.Button();
             this.btnUpdateUser = new System.Windows.Forms.Button();
             this.btnAddNewUser = new System.Windows.Forms.Button();
-            this.radioButtonAdmin = new System.Windows.Forms.RadioButton();
+            this.radioButtonStaff = new System.Windows.Forms.RadioButton();
             this.radioButtonClient = new System.Windows.Forms.RadioButton();
             this.lblUserRole = new System.Windows.Forms.Label();
             this.lblUserName = new System.Windows.Forms.Label();
-            this.lblUserId = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
-            this.txtUserId = new System.Windows.Forms.TextBox();
             this.Product = new System.Windows.Forms.TabPage();
+            this.cmbSuplier = new System.Windows.Forms.ComboBox();
+            this.lsvProducts = new System.Windows.Forms.ListView();
+            this.productID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.productName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.productPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.productQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.productSuplier = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblProductPrice = new System.Windows.Forms.Label();
             this.txtProductPrice = new System.Windows.Forms.TextBox();
             this.lblProductQuantity = new System.Windows.Forms.Label();
@@ -52,11 +72,12 @@
             this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.btnUpdateProduct = new System.Windows.Forms.Button();
             this.btnAddProduct = new System.Windows.Forms.Button();
-            this.lblProductSyplierID = new System.Windows.Forms.Label();
-            this.lblProductID = new System.Windows.Forms.Label();
-            this.txtProductSuplierID = new System.Windows.Forms.TextBox();
-            this.txtProductID = new System.Windows.Forms.TextBox();
+            this.lblProductSyplier = new System.Windows.Forms.Label();
             this.Suplier = new System.Windows.Forms.TabPage();
+            this.lsvSuplier = new System.Windows.Forms.ListView();
+            this.SuplierID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SuplierName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SuplierPhone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblSuplierPhone = new System.Windows.Forms.Label();
             this.txtSuplierPhone = new System.Windows.Forms.TextBox();
             this.lblSuplierName = new System.Windows.Forms.Label();
@@ -64,9 +85,9 @@
             this.btnDeleteSuplier = new System.Windows.Forms.Button();
             this.btnUpdateSuplier = new System.Windows.Forms.Button();
             this.btnAddSuplier = new System.Windows.Forms.Button();
-            this.lblSuplierID = new System.Windows.Forms.Label();
-            this.txtSuplierID = new System.Windows.Forms.TextBox();
+            this.CartProductID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabsStore.SuspendLayout();
+            this.Store.SuspendLayout();
             this.User.SuspendLayout();
             this.Product.SuspendLayout();
             this.Suplier.SuspendLayout();
@@ -82,47 +103,166 @@
             this.tabsStore.Location = new System.Drawing.Point(12, 12);
             this.tabsStore.Name = "tabsStore";
             this.tabsStore.SelectedIndex = 0;
-            this.tabsStore.Size = new System.Drawing.Size(663, 426);
+            this.tabsStore.Size = new System.Drawing.Size(776, 426);
             this.tabsStore.TabIndex = 0;
+            this.tabsStore.Click += new System.EventHandler(this.TabsStrore_Click);
             // 
             // Store
             // 
+            this.Store.Controls.Add(this.btnBuy);
+            this.Store.Controls.Add(this.cmbUsersInStore);
+            this.Store.Controls.Add(this.lsvCart);
+            this.Store.Controls.Add(this.lsvStore);
+            this.Store.Controls.Add(this.cmbSuplierInStore);
             this.Store.Location = new System.Drawing.Point(4, 22);
             this.Store.Name = "Store";
-            this.Store.Size = new System.Drawing.Size(655, 400);
+            this.Store.Size = new System.Drawing.Size(768, 400);
             this.Store.TabIndex = 3;
             this.Store.Text = "Store";
             this.Store.UseVisualStyleBackColor = true;
+            // 
+            // btnBuy
+            // 
+            this.btnBuy.Location = new System.Drawing.Point(343, 28);
+            this.btnBuy.Name = "btnBuy";
+            this.btnBuy.Size = new System.Drawing.Size(75, 23);
+            this.btnBuy.TabIndex = 4;
+            this.btnBuy.Text = "BUY";
+            this.btnBuy.UseVisualStyleBackColor = true;
+            this.btnBuy.Click += new System.EventHandler(this.BtnBuy_Click);
+            // 
+            // cmbUsersInStore
+            // 
+            this.cmbUsersInStore.FormattingEnabled = true;
+            this.cmbUsersInStore.Location = new System.Drawing.Point(23, 28);
+            this.cmbUsersInStore.Name = "cmbUsersInStore";
+            this.cmbUsersInStore.Size = new System.Drawing.Size(121, 21);
+            this.cmbUsersInStore.TabIndex = 3;
+            // 
+            // lsvCart
+            // 
+            this.lsvCart.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.CartProductID,
+            this.CartProdactName,
+            this.CartProductQuantity});
+            this.lsvCart.HideSelection = false;
+            this.lsvCart.Location = new System.Drawing.Point(343, 55);
+            this.lsvCart.Name = "lsvCart";
+            this.lsvCart.Size = new System.Drawing.Size(309, 342);
+            this.lsvCart.TabIndex = 2;
+            this.lsvCart.UseCompatibleStateImageBehavior = false;
+            this.lsvCart.View = System.Windows.Forms.View.Details;
+            // 
+            // CartProdactName
+            // 
+            this.CartProdactName.Text = "Name";
+            this.CartProdactName.Width = 200;
+            // 
+            // CartProductQuantity
+            // 
+            this.CartProductQuantity.Text = "Quantity";
+            // 
+            // lsvStore
+            // 
+            this.lsvStore.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.StoreProductID,
+            this.StoreProductName,
+            this.StoreProductPrice,
+            this.StoreProductQuantity});
+            this.lsvStore.HideSelection = false;
+            this.lsvStore.Location = new System.Drawing.Point(3, 55);
+            this.lsvStore.Name = "lsvStore";
+            this.lsvStore.Size = new System.Drawing.Size(334, 342);
+            this.lsvStore.TabIndex = 1;
+            this.lsvStore.UseCompatibleStateImageBehavior = false;
+            this.lsvStore.View = System.Windows.Forms.View.Details;
+            this.lsvStore.Click += new System.EventHandler(this.SelectedRowInProductStoreChanged);
+            // 
+            // StoreProductID
+            // 
+            this.StoreProductID.Text = "id";
+            this.StoreProductID.Width = 30;
+            // 
+            // StoreProductName
+            // 
+            this.StoreProductName.Text = "Name";
+            this.StoreProductName.Width = 150;
+            // 
+            // StoreProductPrice
+            // 
+            this.StoreProductPrice.Text = "Price";
+            this.StoreProductPrice.Width = 50;
+            // 
+            // StoreProductQuantity
+            // 
+            this.StoreProductQuantity.Text = "Quantity";
+            // 
+            // cmbSuplierInStore
+            // 
+            this.cmbSuplierInStore.FormattingEnabled = true;
+            this.cmbSuplierInStore.Location = new System.Drawing.Point(181, 28);
+            this.cmbSuplierInStore.Name = "cmbSuplierInStore";
+            this.cmbSuplierInStore.Size = new System.Drawing.Size(121, 21);
+            this.cmbSuplierInStore.TabIndex = 0;
+            this.cmbSuplierInStore.SelectedIndexChanged += new System.EventHandler(this.CmbSuplierIndexChanged);
             // 
             // Cart
             // 
             this.Cart.Location = new System.Drawing.Point(4, 22);
             this.Cart.Name = "Cart";
-            this.Cart.Size = new System.Drawing.Size(655, 400);
+            this.Cart.Size = new System.Drawing.Size(768, 400);
             this.Cart.TabIndex = 4;
             this.Cart.Text = "Cart";
             this.Cart.UseVisualStyleBackColor = true;
             // 
             // User
             // 
+            this.User.Controls.Add(this.lsvUser);
             this.User.Controls.Add(this.btnRemoveUser);
             this.User.Controls.Add(this.btnUpdateUser);
             this.User.Controls.Add(this.btnAddNewUser);
-            this.User.Controls.Add(this.radioButtonAdmin);
+            this.User.Controls.Add(this.radioButtonStaff);
             this.User.Controls.Add(this.radioButtonClient);
             this.User.Controls.Add(this.lblUserRole);
             this.User.Controls.Add(this.lblUserName);
-            this.User.Controls.Add(this.lblUserId);
             this.User.Controls.Add(this.txtUserName);
-            this.User.Controls.Add(this.txtUserId);
             this.User.Location = new System.Drawing.Point(4, 22);
             this.User.Name = "User";
             this.User.Padding = new System.Windows.Forms.Padding(3);
-            this.User.Size = new System.Drawing.Size(655, 400);
+            this.User.Size = new System.Drawing.Size(768, 400);
             this.User.TabIndex = 0;
             this.User.Text = "User";
             this.User.UseVisualStyleBackColor = true;
-            this.User.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // lsvUser
+            // 
+            this.lsvUser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.id,
+            this.name,
+            this.role});
+            this.lsvUser.HideSelection = false;
+            this.lsvUser.Location = new System.Drawing.Point(6, 130);
+            this.lsvUser.Name = "lsvUser";
+            this.lsvUser.Size = new System.Drawing.Size(643, 264);
+            this.lsvUser.TabIndex = 15;
+            this.lsvUser.UseCompatibleStateImageBehavior = false;
+            this.lsvUser.View = System.Windows.Forms.View.Details;
+            this.lsvUser.SelectedIndexChanged += new System.EventHandler(this.SelectedRowInUserChanged);
+            // 
+            // id
+            // 
+            this.id.Text = "id";
+            this.id.Width = 30;
+            // 
+            // name
+            // 
+            this.name.Text = "name";
+            this.name.Width = 300;
+            // 
+            // role
+            // 
+            this.role.Text = "role";
+            this.role.Width = 100;
             // 
             // btnRemoveUser
             // 
@@ -132,7 +272,7 @@
             this.btnRemoveUser.TabIndex = 12;
             this.btnRemoveUser.Text = "Delete User";
             this.btnRemoveUser.UseVisualStyleBackColor = true;
-            this.btnRemoveUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
+            this.btnRemoveUser.Click += new System.EventHandler(this.BtnDeleteUser_Click);
             // 
             // btnUpdateUser
             // 
@@ -142,7 +282,7 @@
             this.btnUpdateUser.TabIndex = 11;
             this.btnUpdateUser.Text = "Update user";
             this.btnUpdateUser.UseVisualStyleBackColor = true;
-            this.btnUpdateUser.Click += new System.EventHandler(this.btnUpdateUser_Click);
+            this.btnUpdateUser.Click += new System.EventHandler(this.BtnUpdateUser_Click);
             // 
             // btnAddNewUser
             // 
@@ -152,18 +292,18 @@
             this.btnAddNewUser.TabIndex = 10;
             this.btnAddNewUser.Text = "Add User";
             this.btnAddNewUser.UseVisualStyleBackColor = true;
-            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
+            this.btnAddNewUser.Click += new System.EventHandler(this.BtnAddNewUser_Click);
             // 
-            // radioButtonAdmin
+            // radioButtonStaff
             // 
-            this.radioButtonAdmin.AutoSize = true;
-            this.radioButtonAdmin.Location = new System.Drawing.Point(146, 63);
-            this.radioButtonAdmin.Name = "radioButtonAdmin";
-            this.radioButtonAdmin.Size = new System.Drawing.Size(54, 17);
-            this.radioButtonAdmin.TabIndex = 9;
-            this.radioButtonAdmin.TabStop = true;
-            this.radioButtonAdmin.Text = "Admin";
-            this.radioButtonAdmin.UseVisualStyleBackColor = true;
+            this.radioButtonStaff.AutoSize = true;
+            this.radioButtonStaff.Location = new System.Drawing.Point(146, 63);
+            this.radioButtonStaff.Name = "radioButtonStaff";
+            this.radioButtonStaff.Size = new System.Drawing.Size(47, 17);
+            this.radioButtonStaff.TabIndex = 9;
+            this.radioButtonStaff.TabStop = true;
+            this.radioButtonStaff.Text = "Staff";
+            this.radioButtonStaff.UseVisualStyleBackColor = true;
             // 
             // radioButtonClient
             // 
@@ -184,7 +324,6 @@
             this.lblUserRole.Size = new System.Drawing.Size(29, 13);
             this.lblUserRole.TabIndex = 5;
             this.lblUserRole.Text = "Role";
-            this.lblUserRole.Click += new System.EventHandler(this.label3_Click);
             // 
             // lblUserName
             // 
@@ -195,33 +334,18 @@
             this.lblUserName.TabIndex = 4;
             this.lblUserName.Text = "Name";
             // 
-            // lblUserId
-            // 
-            this.lblUserId.AutoSize = true;
-            this.lblUserId.Location = new System.Drawing.Point(10, 10);
-            this.lblUserId.Name = "lblUserId";
-            this.lblUserId.Size = new System.Drawing.Size(18, 13);
-            this.lblUserId.TabIndex = 3;
-            this.lblUserId.Text = "ID";
-            this.lblUserId.Click += new System.EventHandler(this.label1_Click);
-            // 
             // txtUserName
             // 
             this.txtUserName.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.txtUserName.Location = new System.Drawing.Point(78, 33);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(100, 20);
+            this.txtUserName.Size = new System.Drawing.Size(121, 20);
             this.txtUserName.TabIndex = 1;
-            // 
-            // txtUserId
-            // 
-            this.txtUserId.Location = new System.Drawing.Point(78, 7);
-            this.txtUserId.Name = "txtUserId";
-            this.txtUserId.Size = new System.Drawing.Size(100, 20);
-            this.txtUserId.TabIndex = 0;
             // 
             // Product
             // 
+            this.Product.Controls.Add(this.cmbSuplier);
+            this.Product.Controls.Add(this.lsvProducts);
             this.Product.Controls.Add(this.lblProductPrice);
             this.Product.Controls.Add(this.txtProductPrice);
             this.Product.Controls.Add(this.lblProductQuantity);
@@ -231,18 +355,62 @@
             this.Product.Controls.Add(this.btnDeleteProduct);
             this.Product.Controls.Add(this.btnUpdateProduct);
             this.Product.Controls.Add(this.btnAddProduct);
-            this.Product.Controls.Add(this.lblProductSyplierID);
-            this.Product.Controls.Add(this.lblProductID);
-            this.Product.Controls.Add(this.txtProductSuplierID);
-            this.Product.Controls.Add(this.txtProductID);
+            this.Product.Controls.Add(this.lblProductSyplier);
             this.Product.Location = new System.Drawing.Point(4, 22);
             this.Product.Name = "Product";
             this.Product.Padding = new System.Windows.Forms.Padding(3);
-            this.Product.Size = new System.Drawing.Size(655, 400);
+            this.Product.Size = new System.Drawing.Size(768, 400);
             this.Product.TabIndex = 1;
             this.Product.Text = "Product";
             this.Product.UseVisualStyleBackColor = true;
-            this.Product.Click += new System.EventHandler(this.Product_Click);
+            // 
+            // cmbSuplier
+            // 
+            this.cmbSuplier.FormattingEnabled = true;
+            this.cmbSuplier.Location = new System.Drawing.Point(77, 111);
+            this.cmbSuplier.Name = "cmbSuplier";
+            this.cmbSuplier.Size = new System.Drawing.Size(100, 21);
+            this.cmbSuplier.TabIndex = 30;
+            // 
+            // lsvProducts
+            // 
+            this.lsvProducts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.productID,
+            this.productName,
+            this.productPrice,
+            this.productQuantity,
+            this.productSuplier});
+            this.lsvProducts.HideSelection = false;
+            this.lsvProducts.Location = new System.Drawing.Point(6, 166);
+            this.lsvProducts.Name = "lsvProducts";
+            this.lsvProducts.Size = new System.Drawing.Size(643, 228);
+            this.lsvProducts.TabIndex = 29;
+            this.lsvProducts.UseCompatibleStateImageBehavior = false;
+            this.lsvProducts.View = System.Windows.Forms.View.Details;
+            this.lsvProducts.SelectedIndexChanged += new System.EventHandler(this.SelectedRowInProductChanged);
+            // 
+            // productID
+            // 
+            this.productID.Text = "id";
+            this.productID.Width = 30;
+            // 
+            // productName
+            // 
+            this.productName.Text = "name";
+            this.productName.Width = 200;
+            // 
+            // productPrice
+            // 
+            this.productPrice.Text = "price";
+            // 
+            // productQuantity
+            // 
+            this.productQuantity.Text = "Quantity";
+            // 
+            // productSuplier
+            // 
+            this.productSuplier.Text = "Suplier";
+            this.productSuplier.Width = 200;
             // 
             // lblProductPrice
             // 
@@ -300,6 +468,7 @@
             this.btnDeleteProduct.TabIndex = 22;
             this.btnDeleteProduct.Text = "Delete Product";
             this.btnDeleteProduct.UseVisualStyleBackColor = true;
+            this.btnDeleteProduct.Click += new System.EventHandler(this.BtnDeleteProduct_Click);
             // 
             // btnUpdateProduct
             // 
@@ -309,6 +478,7 @@
             this.btnUpdateProduct.TabIndex = 21;
             this.btnUpdateProduct.Text = "Update Product";
             this.btnUpdateProduct.UseVisualStyleBackColor = true;
+            this.btnUpdateProduct.Click += new System.EventHandler(this.BtnUpdateProduct_Click);
             // 
             // btnAddProduct
             // 
@@ -318,42 +488,20 @@
             this.btnAddProduct.TabIndex = 20;
             this.btnAddProduct.Text = "Add Product";
             this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.BtnAddNewProduct_Click);
             // 
-            // lblProductSyplierID
+            // lblProductSyplier
             // 
-            this.lblProductSyplierID.AutoSize = true;
-            this.lblProductSyplierID.Location = new System.Drawing.Point(9, 114);
-            this.lblProductSyplierID.Name = "lblProductSyplierID";
-            this.lblProductSyplierID.Size = new System.Drawing.Size(53, 13);
-            this.lblProductSyplierID.TabIndex = 16;
-            this.lblProductSyplierID.Text = "Suplier ID";
-            // 
-            // lblProductID
-            // 
-            this.lblProductID.AutoSize = true;
-            this.lblProductID.Location = new System.Drawing.Point(9, 10);
-            this.lblProductID.Name = "lblProductID";
-            this.lblProductID.Size = new System.Drawing.Size(18, 13);
-            this.lblProductID.TabIndex = 15;
-            this.lblProductID.Text = "ID";
-            // 
-            // txtProductSuplierID
-            // 
-            this.txtProductSuplierID.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.txtProductSuplierID.Location = new System.Drawing.Point(77, 111);
-            this.txtProductSuplierID.Name = "txtProductSuplierID";
-            this.txtProductSuplierID.Size = new System.Drawing.Size(100, 20);
-            this.txtProductSuplierID.TabIndex = 14;
-            // 
-            // txtProductID
-            // 
-            this.txtProductID.Location = new System.Drawing.Point(77, 7);
-            this.txtProductID.Name = "txtProductID";
-            this.txtProductID.Size = new System.Drawing.Size(100, 20);
-            this.txtProductID.TabIndex = 13;
+            this.lblProductSyplier.AutoSize = true;
+            this.lblProductSyplier.Location = new System.Drawing.Point(9, 114);
+            this.lblProductSyplier.Name = "lblProductSyplier";
+            this.lblProductSyplier.Size = new System.Drawing.Size(39, 13);
+            this.lblProductSyplier.TabIndex = 16;
+            this.lblProductSyplier.Text = "Suplier";
             // 
             // Suplier
             // 
+            this.Suplier.Controls.Add(this.lsvSuplier);
             this.Suplier.Controls.Add(this.lblSuplierPhone);
             this.Suplier.Controls.Add(this.txtSuplierPhone);
             this.Suplier.Controls.Add(this.lblSuplierName);
@@ -361,14 +509,42 @@
             this.Suplier.Controls.Add(this.btnDeleteSuplier);
             this.Suplier.Controls.Add(this.btnUpdateSuplier);
             this.Suplier.Controls.Add(this.btnAddSuplier);
-            this.Suplier.Controls.Add(this.lblSuplierID);
-            this.Suplier.Controls.Add(this.txtSuplierID);
             this.Suplier.Location = new System.Drawing.Point(4, 22);
             this.Suplier.Name = "Suplier";
-            this.Suplier.Size = new System.Drawing.Size(655, 400);
+            this.Suplier.Size = new System.Drawing.Size(768, 400);
             this.Suplier.TabIndex = 2;
             this.Suplier.Text = "Suplier";
             this.Suplier.UseVisualStyleBackColor = true;
+            // 
+            // lsvSuplier
+            // 
+            this.lsvSuplier.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.SuplierID,
+            this.SuplierName,
+            this.SuplierPhone});
+            this.lsvSuplier.HideSelection = false;
+            this.lsvSuplier.Location = new System.Drawing.Point(12, 164);
+            this.lsvSuplier.Name = "lsvSuplier";
+            this.lsvSuplier.Size = new System.Drawing.Size(633, 222);
+            this.lsvSuplier.TabIndex = 40;
+            this.lsvSuplier.UseCompatibleStateImageBehavior = false;
+            this.lsvSuplier.View = System.Windows.Forms.View.Details;
+            this.lsvSuplier.SelectedIndexChanged += new System.EventHandler(this.SelectedRowInSuplierChanged);
+            // 
+            // SuplierID
+            // 
+            this.SuplierID.Text = "id";
+            this.SuplierID.Width = 30;
+            // 
+            // SuplierName
+            // 
+            this.SuplierName.Text = "Name";
+            this.SuplierName.Width = 300;
+            // 
+            // SuplierPhone
+            // 
+            this.SuplierPhone.Text = "Phone";
+            this.SuplierPhone.Width = 200;
             // 
             // lblSuplierPhone
             // 
@@ -383,9 +559,8 @@
             // 
             this.txtSuplierPhone.Location = new System.Drawing.Point(77, 57);
             this.txtSuplierPhone.Name = "txtSuplierPhone";
-            this.txtSuplierPhone.Size = new System.Drawing.Size(100, 20);
+            this.txtSuplierPhone.Size = new System.Drawing.Size(252, 20);
             this.txtSuplierPhone.TabIndex = 38;
-            this.txtSuplierPhone.TextChanged += new System.EventHandler(this.txtSuplierPhone_TextChanged);
             // 
             // lblSuplierName
             // 
@@ -400,9 +575,8 @@
             // 
             this.txtSuplierName.Location = new System.Drawing.Point(77, 31);
             this.txtSuplierName.Name = "txtSuplierName";
-            this.txtSuplierName.Size = new System.Drawing.Size(100, 20);
+            this.txtSuplierName.Size = new System.Drawing.Size(252, 20);
             this.txtSuplierName.TabIndex = 36;
-            this.txtSuplierName.TextChanged += new System.EventHandler(this.txtSuplierName_TextChanged);
             // 
             // btnDeleteSuplier
             // 
@@ -412,7 +586,7 @@
             this.btnDeleteSuplier.TabIndex = 35;
             this.btnDeleteSuplier.Text = "Delete Suplier";
             this.btnDeleteSuplier.UseVisualStyleBackColor = true;
-            this.btnDeleteSuplier.Click += new System.EventHandler(this.btnDeleteSuplier_Click);
+            this.btnDeleteSuplier.Click += new System.EventHandler(this.BtnDeleteSuplier_Click);
             // 
             // btnUpdateSuplier
             // 
@@ -422,7 +596,7 @@
             this.btnUpdateSuplier.TabIndex = 34;
             this.btnUpdateSuplier.Text = "Update Suplier";
             this.btnUpdateSuplier.UseVisualStyleBackColor = true;
-            this.btnUpdateSuplier.Click += new System.EventHandler(this.btnUpdateSuplier_Click);
+            this.btnUpdateSuplier.Click += new System.EventHandler(this.BtnUpdateSuplier_Click);
             // 
             // btnAddSuplier
             // 
@@ -432,24 +606,12 @@
             this.btnAddSuplier.TabIndex = 33;
             this.btnAddSuplier.Text = "Add Suplier";
             this.btnAddSuplier.UseVisualStyleBackColor = true;
-            this.btnAddSuplier.Click += new System.EventHandler(this.btnAddSuplier_Click);
+            this.btnAddSuplier.Click += new System.EventHandler(this.BtnAddNewSuplier_Click);
             // 
-            // lblSuplierID
+            // CartProductID
             // 
-            this.lblSuplierID.AutoSize = true;
-            this.lblSuplierID.Location = new System.Drawing.Point(9, 8);
-            this.lblSuplierID.Name = "lblSuplierID";
-            this.lblSuplierID.Size = new System.Drawing.Size(18, 13);
-            this.lblSuplierID.TabIndex = 31;
-            this.lblSuplierID.Text = "ID";
-            // 
-            // txtSuplierID
-            // 
-            this.txtSuplierID.Location = new System.Drawing.Point(77, 5);
-            this.txtSuplierID.Name = "txtSuplierID";
-            this.txtSuplierID.Size = new System.Drawing.Size(100, 20);
-            this.txtSuplierID.TabIndex = 29;
-            this.txtSuplierID.TextChanged += new System.EventHandler(this.txtSuplierID_TextChanged);
+            this.CartProductID.Text = "id";
+            this.CartProductID.Width = 30;
             // 
             // frmStore
             // 
@@ -459,8 +621,8 @@
             this.Controls.Add(this.tabsStore);
             this.Name = "frmStore";
             this.Text = "Store";
-            this.Load += new System.EventHandler(this.frmStore_Load);
             this.tabsStore.ResumeLayout(false);
+            this.Store.ResumeLayout(false);
             this.User.ResumeLayout(false);
             this.User.PerformLayout();
             this.Product.ResumeLayout(false);
@@ -480,14 +642,12 @@
         private System.Windows.Forms.TabPage Cart;
         private System.Windows.Forms.Label lblUserRole;
         private System.Windows.Forms.Label lblUserName;
-        private System.Windows.Forms.Label lblUserId;
         private System.Windows.Forms.TextBox txtUserName;
-        private System.Windows.Forms.TextBox txtUserId;
         private System.Windows.Forms.TabPage Suplier;
         private System.Windows.Forms.Button btnRemoveUser;
         private System.Windows.Forms.Button btnUpdateUser;
         private System.Windows.Forms.Button btnAddNewUser;
-        private System.Windows.Forms.RadioButton radioButtonAdmin;
+        private System.Windows.Forms.RadioButton radioButtonStaff;
         private System.Windows.Forms.RadioButton radioButtonClient;
         private System.Windows.Forms.Label lblProductPrice;
         private System.Windows.Forms.TextBox txtProductPrice;
@@ -498,10 +658,7 @@
         private System.Windows.Forms.Button btnDeleteProduct;
         private System.Windows.Forms.Button btnUpdateProduct;
         private System.Windows.Forms.Button btnAddProduct;
-        private System.Windows.Forms.Label lblProductSyplierID;
-        private System.Windows.Forms.Label lblProductID;
-        private System.Windows.Forms.TextBox txtProductSuplierID;
-        private System.Windows.Forms.TextBox txtProductID;
+        private System.Windows.Forms.Label lblProductSyplier;
         private System.Windows.Forms.Label lblSuplierPhone;
         private System.Windows.Forms.TextBox txtSuplierPhone;
         private System.Windows.Forms.Label lblSuplierName;
@@ -509,8 +666,33 @@
         private System.Windows.Forms.Button btnDeleteSuplier;
         private System.Windows.Forms.Button btnUpdateSuplier;
         private System.Windows.Forms.Button btnAddSuplier;
-        private System.Windows.Forms.Label lblSuplierID;
-        private System.Windows.Forms.TextBox txtSuplierID;
+        private System.Windows.Forms.ListView lsvUser;
+        private System.Windows.Forms.ColumnHeader id;
+        private System.Windows.Forms.ColumnHeader name;
+        private System.Windows.Forms.ColumnHeader role;
+        private System.Windows.Forms.ListView lsvProducts;
+        private System.Windows.Forms.ColumnHeader productID;
+        private System.Windows.Forms.ColumnHeader productName;
+        private System.Windows.Forms.ColumnHeader productPrice;
+        private System.Windows.Forms.ColumnHeader productQuantity;
+        private System.Windows.Forms.ColumnHeader productSuplier;
+        private System.Windows.Forms.ComboBox cmbSuplier;
+        private System.Windows.Forms.ListView lsvSuplier;
+        private System.Windows.Forms.ColumnHeader SuplierID;
+        private System.Windows.Forms.ColumnHeader SuplierName;
+        private System.Windows.Forms.ColumnHeader SuplierPhone;
+        private System.Windows.Forms.ListView lsvStore;
+        private System.Windows.Forms.ComboBox cmbSuplierInStore;
+        private System.Windows.Forms.ListView lsvCart;
+        private System.Windows.Forms.ColumnHeader CartProdactName;
+        private System.Windows.Forms.ColumnHeader CartProductQuantity;
+        private System.Windows.Forms.ColumnHeader StoreProductID;
+        private System.Windows.Forms.ColumnHeader StoreProductName;
+        private System.Windows.Forms.ColumnHeader StoreProductPrice;
+        private System.Windows.Forms.ColumnHeader StoreProductQuantity;
+        private System.Windows.Forms.ComboBox cmbUsersInStore;
+        private System.Windows.Forms.Button btnBuy;
+        private System.Windows.Forms.ColumnHeader CartProductID;
     }
 }
 

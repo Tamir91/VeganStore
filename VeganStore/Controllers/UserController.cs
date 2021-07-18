@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,23 @@ namespace VeganStore.Controllers
 {
     class UserController
     {
+        public static List<User> GetAllUsers()
+        {
+            DBSQL dBSQL = DBSQL.Instance;
+            List<User> users = dBSQL.GetData<User>();
+
+            return users;
+        }
+
         /// <summary>
         /// This function add new User
         /// </summary>
         /// <param name="name">User name</param>
         /// <param name="role">User role Client or Admin</param>
         /// <returns></returns>
-        public static bool AddUser(string name, string role)
+        public static long AddUser(string name, string role)
         {
-            bool result = false;
+            long result = -1;
 
             User user = new User
             {
@@ -30,29 +39,28 @@ namespace VeganStore.Controllers
             return result;
         }
 
-        public static bool UpdateUser(string id)
+        public static long UpdateUser(User user)
         {
-            bool result = false;
+            long result = -1;
 
-            if(!String.IsNullOrEmpty(id) && !String.IsNullOrWhiteSpace(id))
-            {
-                // TODO: Implemet
-            }
+            DBSQL dBSQL = DBSQL.Instance;
+            result = dBSQL.UpdateUser(user);
+          
 
             return result;
         }
 
-        public static bool DeleteUser(string id)
+        public static long DeleteUser(string id)
         {
-            bool result = false;
+            long result = -1;
 
             if (!String.IsNullOrEmpty(id) && !String.IsNullOrWhiteSpace(id))
             {
-                // TODO: remove by ID
+                DBSQL dBSQL = DBSQL.Instance;
+                result = dBSQL.DeleteRow<User>(Convert.ToInt32(id));
             }
 
             return result;
         }
-
     }
 }

@@ -59,10 +59,10 @@ namespace VeganStore
             connection.Close();
         }
 
-        protected bool ExecuteSimpleQuery(MySqlCommand command)
+        protected long ExecuteSimpleQuery(MySqlCommand command)
         {
-            bool result = true;
-
+            long lastInsertID = 0;
+            
             lock (connection)// creates pipe, only one per time can connect 
             {
                 if (Connect())
@@ -71,10 +71,12 @@ namespace VeganStore
                     try
                     {
                         command.ExecuteNonQuery(); // not returning result
+
+                        lastInsertID = command.LastInsertedId;
                     }
                     catch (Exception)
                     {
-                        result = false;
+                        lastInsertID = -1;
                     }
                     finally
                     {
@@ -83,7 +85,7 @@ namespace VeganStore
                 }
             }
 
-            return result;
+            return lastInsertID;
         }
 
         // command - query

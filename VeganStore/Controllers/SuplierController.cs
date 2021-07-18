@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,78 +10,60 @@ namespace VeganStore.Controllers
 {
     class SuplierController
     {
+        public static List<Suplier> GetAllSupliers()
+        {
+            return DBSQL.Instance.GetData<Suplier>();
+        }
+
         /// <summary>
         /// This function add new Suplier
         /// </summary>
         /// <param name="name">Suplier name</param>
         /// <param name="phone">Suplier phone</param>
         /// <returns>>True if Suplier added otherwise false</returns>
-        public static bool AddSuplier(string name, string phone)
+        public static long AddSuplier(string name, string phone)
         {
-            bool result = false;
-
-            if(IsPhoneNumber(phone) && !String.IsNullOrEmpty(name))
+            Suplier suplier = new Suplier
             {
-                Suplier suplier = new Suplier
-                {
-                    Name = name,
-                    Phone = phone
-                };
+                Name = name,
+                Phone = phone
+            };
 
-                DBSQL dBSQL = DBSQL.Instance;
-                result = dBSQL.InsertSuplier(suplier);
-            }
-
-            return result;
+            return DBSQL.Instance.InsertSuplier(suplier);
         }
 
         /// <summary>
         /// This function update Suplier By ID
         /// </summary>
-        /// <param name="id">Suplier ID</param>
+        /// <param name="suplier">suplier object</param>
         /// <returns>True if Suplier updated otherwise false</returns>
-        public static bool UpdateSuplierByID(string id)
+        public static long UpdateSuplier(Suplier suplier)
         {
-            bool result = false;
-
-            if(!String.IsNullOrEmpty(id) && !String.IsNullOrWhiteSpace(id))
-            {
-                // TODO: Implemet
-            }
-            return result;
+            return DBSQL.Instance.UpdateSuplier(suplier);
         }
 
         /// <summary>
         /// This function delete Suplier by ID OR name OR phone
         /// </summary>
         /// <param name="id">Suplier ID</param>
-        /// <param name="name">Suplier name</param>
-        /// <param name="phone">Suplier phone</param>
         /// <returns>True if Suplier deleted otherwise false</returns>
-        public static bool DeleteSuplier(string id, string name, string phone)
+        public static long DeleteSuplier(string id)
         {
-            bool result = false;
+            long result = -1;
 
             if(!String.IsNullOrEmpty(id) && !String.IsNullOrWhiteSpace(id))
             {
-                 // TODO: remove by ID
-            }
-            else if (!String.IsNullOrEmpty(name) && !String.IsNullOrWhiteSpace(name))
-            {
-                // TODO: remove by name
-            }
-            else if(!String.IsNullOrEmpty(phone) && !String.IsNullOrWhiteSpace(phone))
-            {
-                // TODO: remove by phone
+                DBSQL dBSQL = DBSQL.Instance;
+                result = dBSQL.DeleteRow<Suplier>(Convert.ToInt32(id));
             }
 
             return result;
         }
 
-        // Check if phone number is valid
-        private static bool IsPhoneNumber(string number)
+        public static bool IsInputSuplierDataCorrect(string name, string phone)
         {
-            return number != null && number.All(char.IsDigit);
+            return !String.IsNullOrEmpty(name) && !String.IsNullOrWhiteSpace(name) &&
+                   !String.IsNullOrEmpty(phone) && !String.IsNullOrWhiteSpace(phone) && phone.All(char.IsDigit);
         }
     }
 }

@@ -42,7 +42,7 @@ CREATE TABLE `products` (
 -- Структура таблицы `suplier`
 --
 
-CREATE TABLE `suplier` (
+CREATE TABLE `supliers` (
   `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL
@@ -74,7 +74,7 @@ ALTER TABLE `products`
 --
 -- Индексы таблицы `suplier`
 --
-ALTER TABLE `suplier`
+ALTER TABLE `supliers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -96,7 +96,7 @@ ALTER TABLE `products`
 --
 -- AUTO_INCREMENT для таблицы `suplier`
 --
-ALTER TABLE `suplier`
+ALTER TABLE `supliers`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -113,7 +113,7 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`suplier_id`) REFERENCES `suplier` (`id`) ON DELETE RESTRICT;
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`suplier_id`) REFERENCES `supliers` (`id`) ON DELETE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
