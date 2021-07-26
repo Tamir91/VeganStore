@@ -14,6 +14,7 @@ namespace VeganStore
         private List<Product> products = new List<Product>();
         private List<Suplier> supliers = new List<Suplier>();
         private List<Product> productsInCart = new List<Product>();
+        private List<OrderTotal> ordersTotal = new List<OrderTotal>();
 
         private User selectedUser;
         private Product selectedProduct;
@@ -53,6 +54,20 @@ namespace VeganStore
             lsvStore.View = View.Details;// Set display mode
             lsvStore.Scrollable = true;// Whether to show the scroll bar automatically
             lsvStore.MultiSelect = false;// Is it possible to select multiple lines
+
+            lsvOrder.GridLines = true;// Whether the grid lines are displayed
+            lsvOrder.FullRowSelect = true;// Whether to select the entire line
+
+            lsvOrder.View = View.Details;// Set display mode
+            lsvOrder.Scrollable = true;// Whether to show the scroll bar automatically
+            lsvOrder.MultiSelect = false;// Is it possible to select multiple lines
+
+            lsvOrderProducts.GridLines = true;// Whether the grid lines are displayed
+            lsvOrderProducts.FullRowSelect = true;// Whether to select the entire line
+
+            lsvOrderProducts.View = View.Details;// Set display mode
+            lsvOrderProducts.Scrollable = true;// Whether to show the scroll bar automatically
+            lsvOrderProducts.MultiSelect = false;// Is it possible to select multiple lines
         }
 
         private void TabsStrore_Click(object sender, EventArgs e)
@@ -80,6 +95,11 @@ namespace VeganStore
                         FillStoreListView();
                         FillComboBoxOfUsersInStore();
                         FillComboBoxOfSupliersInStore();
+                        break;
+                    }
+                case "Orders":
+                    {
+                        FillComboBoxOfUsersInOrder();
                         break;
                     }
 
@@ -517,6 +537,83 @@ namespace VeganStore
             }
             lsvCart.Items.Clear();
             productsInCart.Clear();
+        }
+
+        /* Order Tab */
+
+        private void FillComboBoxOfUsersInOrder()
+        {
+            int ind = 0;
+            cmbUsersInOrders.Items.Clear();
+
+            users = UserController.GetAllUsers();
+            System.Object[] ItemObject = new System.Object[users.Count];
+
+            foreach (User us in users)
+            {
+
+                ItemObject[ind++] = us.Name.ToString();
+            }
+            cmbUsersInOrders.Items.AddRange(ItemObject);
+        }
+
+        private void FillOrdersTotalListView(List<OrderTotal> orders)
+        {
+            lsvOrder.Items.Clear();
+            lsvOrderProducts.Items.Clear();
+
+            foreach (OrderTotal ord in orders)
+            {
+                ListViewItem item = new ListViewItem(ord.Cart_id.ToString());
+                item.SubItems.Add(ord.Name.ToString());
+                item.SubItems.Add(ord.Total.ToString());
+                item.SubItems.Add(ord.Created_at.ToString());
+
+                lsvOrder.Items.Add(item);
+            }
+        }
+
+        private void CmbUserIndexInOrdersChanged(object sender, EventArgs e)
+        {
+            long userId = users[cmbUsersInOrders.SelectedIndex].Id;
+
+            ordersTotal = OrderController.GetOrdersByUserID(userId);
+            FillOrdersTotalListView(ordersTotal);
+        }
+
+        private void SelectedRowInOrdersChanged(object sender, EventArgs e)
+        {
+            
+            if (lsvOrder.SelectedItems.Count > 0)
+            {
+                lsvOrderProducts.Items.Clear();
+
+                int selectedIndex = lsvOrder.Items.IndexOf(lsvOrder.SelectedItems[0]);
+                long cart_id = ordersTotal[selectedIndex].Cart_id;
+
+                List<OrderProduct> products = OrderController.GetOrderProductsByCartID(cart_id);
+
+                foreach (OrderProduct p in products)
+                {
+                    ListViewItem item = new ListViewItem(p.Product_id.ToString());
+                    item.SubItems.Add(p.Name.ToString());
+                    item.SubItems.Add(p.Quantity.ToString());
+                    item.SubItems.Add(p.Price.ToString());
+                    item.SubItems.Add(p.Total_price.ToString());
+
+                    lsvOrderProducts.Items.Add(item);
+                }
+            }
+        }
+
+        private void BtnCreateUserExcel_Click(object sender, EventArgs e)
+        {
+            ExcelController.CreateExcelReport<User>("users.xls");
+        }
+
+        private void BtnCreateProductExel_Click(object sender, EventArgs e)
+        {
+            ExcelController.CreateExcelReport<Product>("products.xls");
         }
     }
 }

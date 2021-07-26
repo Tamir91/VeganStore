@@ -36,6 +36,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelLibrary.1.2011.7.31\lib\ExcelLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.14.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.14.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ExcelController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SuplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -101,9 +105,11 @@
     </Compile>
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderProduct.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Store.cs" />
     <Compile Include="Models\Suplier.cs" />
+    <Compile Include="Models\TotalOrder.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Program.cs" />

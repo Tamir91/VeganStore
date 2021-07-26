@@ -48,18 +48,6 @@ namespace VeganStore
             return cart;
         }
 
-        protected Order DataSetRowToOrderObject(DataRow row)
-        {
-            Order order = new Order
-            {
-                Id = Convert.ToInt32(row["id"]),
-                Product_id = Convert.ToInt32(row["product_id"]),
-                Quantity = Convert.ToInt32(row["quantity"]),
-                Cart_id = Convert.ToInt32(row["cart_id"])
-            };
-            return order;
-        }
-
         protected Product DataSetRowToProductObject(DataRow row)
         {
             Product product = new Product();
@@ -94,6 +82,79 @@ namespace VeganStore
                 Role = row["role"].ToString()
             };
             return user;
+        }
+
+        public User GetUserByID(long userID)
+        {
+            DataSet result;
+            User user;
+            string cmdStr = "SELECT * FROM users WHERE id=@id";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@id", userID);
+                result = GetMultipleQuery(command);
+            }
+
+            try
+            {
+                user = new User
+                {
+                    Id = Convert.ToInt32(result.Tables[0].Rows[0]["id"]),
+                    Name = result.Tables[0].Rows[0]["name"].ToString(),
+                    Role = result.Tables[0].Rows[0]["role"].ToString()
+                };
+            }
+            catch
+            {
+                user = null;
+            }
+            
+
+            return user;
+        }
+
+        public List<OrderTotal> GetOrdersByUserID(long userID)
+        {
+            DataSet result;
+            string cmdStr = "SELECT * FROM " +
+                                "(SELECT carts.id cart_id, carts.created_at, users.name, " +
+	                                "(SELECT SUM(products.price * orders.quantity) " +
+                                     "FROM orders " +
+                                     "LEFT JOIN products " +
+                                     "ON orders.product_id = products.id " +
+                                     "WHERE carts.id = orders.cart_id " +
+                                     "GROUP BY orders.cart_id) AS total " +
+                                "FROM carts " +
+                                "LEFT JOIN users " +
+                                "ON carts.user_id = users.id " +
+                                " WHERE carts.user_id=@user_id) subtable " +
+                            "WHERE subtable.total IS NOT NULL ";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                command.Parameters.AddWithValue("@user_id", userID);
+                result = GetMultipleQuery(command);
+            }
+
+            return GetOrders(result);
+        }
+
+        public List<OrderProduct> GetOrderProducts(long cartID)
+        {
+            DataSet result;
+            string cmdStr = "SELECT o.product_id, o.cart_id, o.quantity, p.name, p.price, (p.price * o.quantity) total_price " +
+                                "FROM orders o " +
+                                "LEFT JOIN products p ON o.product_id = p.id " +
+                                "WHERE o.cart_id =@cart_id";
+
+             using (MySqlCommand command = new MySqlCommand(cmdStr))
+             {
+                command.Parameters.AddWithValue("@cart_id", cartID);
+                result = GetMultipleQuery(command);
+             }
+
+            return GetOrdersProductsToList(result);
         }
 
         /*
@@ -260,7 +321,7 @@ namespace VeganStore
         }
 
         //Test Generic function
-        protected List<T> GetData<T>(DataSet dataSet)
+        public List<T> GetData<T>(DataSet dataSet)
         {
             DataRowCollection data = dataSet.Tables[0].Rows;
             List<T> list = new List<T>();
@@ -306,6 +367,19 @@ namespace VeganStore
             return result;
         }
 
+        public DataSet GetDataForExcel<T>()
+        {
+            DataSet result;
+            string cmdStr = "SELECT * FROM " + typeof(T).Name.ToLower() + "s";
+
+            using (MySqlCommand command = new MySqlCommand(cmdStr))
+            {
+                result = GetMultipleQuery(command);
+            }
+
+            return result;
+        }
+
         // Get DataSet from table by id
         public DataSet GetData<T>(long id)
         {
@@ -320,6 +394,7 @@ namespace VeganStore
 
             return result;
         }
+
 
         public List<Product> GetProductsBySuplierID(long suplierID)
         {
@@ -345,6 +420,57 @@ namespace VeganStore
                 list.Add((Product)DataSetRowToProductObject(data[i]));          
             }
             return list;
+        }
+
+        public List<OrderTotal> GetOrders(DataSet dataSet)
+        {
+            DataRowCollection data = dataSet.Tables[0].Rows;
+            List<OrderTotal> list = new List<OrderTotal>();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                list.Add((OrderTotal)DataSetRowToOrderObject(data[i]));
+            }
+            return list;
+        }
+
+        public List<OrderProduct> GetOrdersProductsToList(DataSet dataSet)
+        {
+            DataRowCollection data = dataSet.Tables[0].Rows;
+            List<OrderProduct> list = new List<OrderProduct>();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                list.Add(DataSetRowToOrderProductObject(data[i]));
+            }
+            return list;
+        }
+
+        private OrderTotal DataSetRowToOrderObject(DataRow row)
+        {
+            OrderTotal order = new OrderTotal
+            {
+                Cart_id = Convert.ToInt32(row["cart_id"].ToString()),
+                Name = row["name"].ToString(),
+                Created_at = row["created_at"].ToString(),
+                Total = Convert.ToInt32(row["total"].ToString())
+            };
+            return order;
+        }
+
+        private OrderProduct DataSetRowToOrderProductObject(DataRow row)
+        {
+            OrderProduct order = new OrderProduct
+            {
+                Product_id = Convert.ToInt32(row["product_id"].ToString()),
+                Name = row["name"].ToString(),
+                Quantity = Convert.ToInt32(row["quantity"].ToString()),
+                Price = Convert.ToInt32(row["price"].ToString()),
+                Total_price = Convert.ToInt32(row["total_price"].ToString()),
+                Cart_id = Convert.ToInt32(row["cart_id"].ToString())
+            };
+
+            return order;
         }
 
         /*Inserts*/

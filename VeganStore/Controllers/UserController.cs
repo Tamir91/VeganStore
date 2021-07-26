@@ -17,6 +17,14 @@ namespace VeganStore.Controllers
             return users;
         }
 
+        public static User GetUserByID(long userID)
+        {
+            DBSQL dBSQL = DBSQL.Instance;
+            User user = dBSQL.GetUserByID(userID);
+
+            return user;
+        }
+
         /// <summary>
         /// This function add new User
         /// </summary>

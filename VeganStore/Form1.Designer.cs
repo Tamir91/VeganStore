@@ -33,6 +33,7 @@
             this.btnBuy = new System.Windows.Forms.Button();
             this.cmbUsersInStore = new System.Windows.Forms.ComboBox();
             this.lsvCart = new System.Windows.Forms.ListView();
+            this.CartProductID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CartProdactName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CartProductQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsvStore = new System.Windows.Forms.ListView();
@@ -41,8 +42,21 @@
             this.StoreProductPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.StoreProductQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmbSuplierInStore = new System.Windows.Forms.ComboBox();
-            this.Cart = new System.Windows.Forms.TabPage();
+            this.Orders = new System.Windows.Forms.TabPage();
+            this.lsvOrder = new System.Windows.Forms.ListView();
+            this.OrderID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderUserName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderTotal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderCreatedAt = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmbUsersInOrders = new System.Windows.Forms.ComboBox();
+            this.lsvOrderProducts = new System.Windows.Forms.ListView();
+            this.OrdersProductID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrdersProductName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderProductQuantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderProductPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OrderProductTotal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.User = new System.Windows.Forms.TabPage();
+            this.btnCreateExcel = new System.Windows.Forms.Button();
             this.lsvUser = new System.Windows.Forms.ListView();
             this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -56,6 +70,7 @@
             this.lblUserName = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.Product = new System.Windows.Forms.TabPage();
+            this.btnCreateProductExel = new System.Windows.Forms.Button();
             this.cmbSuplier = new System.Windows.Forms.ComboBox();
             this.lsvProducts = new System.Windows.Forms.ListView();
             this.productID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -85,9 +100,9 @@
             this.btnDeleteSuplier = new System.Windows.Forms.Button();
             this.btnUpdateSuplier = new System.Windows.Forms.Button();
             this.btnAddSuplier = new System.Windows.Forms.Button();
-            this.CartProductID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabsStore.SuspendLayout();
             this.Store.SuspendLayout();
+            this.Orders.SuspendLayout();
             this.User.SuspendLayout();
             this.Product.SuspendLayout();
             this.Suplier.SuspendLayout();
@@ -96,7 +111,7 @@
             // tabsStore
             // 
             this.tabsStore.Controls.Add(this.Store);
-            this.tabsStore.Controls.Add(this.Cart);
+            this.tabsStore.Controls.Add(this.Orders);
             this.tabsStore.Controls.Add(this.User);
             this.tabsStore.Controls.Add(this.Product);
             this.tabsStore.Controls.Add(this.Suplier);
@@ -153,6 +168,11 @@
             this.lsvCart.UseCompatibleStateImageBehavior = false;
             this.lsvCart.View = System.Windows.Forms.View.Details;
             // 
+            // CartProductID
+            // 
+            this.CartProductID.Text = "id";
+            this.CartProductID.Width = 30;
+            // 
             // CartProdactName
             // 
             this.CartProdactName.Text = "Name";
@@ -206,17 +226,107 @@
             this.cmbSuplierInStore.TabIndex = 0;
             this.cmbSuplierInStore.SelectedIndexChanged += new System.EventHandler(this.CmbSuplierIndexChanged);
             // 
-            // Cart
+            // Orders
             // 
-            this.Cart.Location = new System.Drawing.Point(4, 22);
-            this.Cart.Name = "Cart";
-            this.Cart.Size = new System.Drawing.Size(768, 400);
-            this.Cart.TabIndex = 4;
-            this.Cart.Text = "Cart";
-            this.Cart.UseVisualStyleBackColor = true;
+            this.Orders.Controls.Add(this.lsvOrder);
+            this.Orders.Controls.Add(this.cmbUsersInOrders);
+            this.Orders.Controls.Add(this.lsvOrderProducts);
+            this.Orders.Location = new System.Drawing.Point(4, 22);
+            this.Orders.Name = "Orders";
+            this.Orders.Size = new System.Drawing.Size(768, 400);
+            this.Orders.TabIndex = 4;
+            this.Orders.Text = "Orders";
+            this.Orders.UseVisualStyleBackColor = true;
+            // 
+            // lsvOrder
+            // 
+            this.lsvOrder.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.OrderID,
+            this.OrderUserName,
+            this.OrderTotal,
+            this.OrderCreatedAt});
+            this.lsvOrder.HideSelection = false;
+            this.lsvOrder.Location = new System.Drawing.Point(3, 76);
+            this.lsvOrder.Name = "lsvOrder";
+            this.lsvOrder.Size = new System.Drawing.Size(306, 321);
+            this.lsvOrder.TabIndex = 2;
+            this.lsvOrder.UseCompatibleStateImageBehavior = false;
+            this.lsvOrder.View = System.Windows.Forms.View.Details;
+            this.lsvOrder.SelectedIndexChanged += new System.EventHandler(this.SelectedRowInOrdersChanged);
+            // 
+            // OrderID
+            // 
+            this.OrderID.Text = "id";
+            this.OrderID.Width = 30;
+            // 
+            // OrderUserName
+            // 
+            this.OrderUserName.Text = "User";
+            this.OrderUserName.Width = 100;
+            // 
+            // OrderTotal
+            // 
+            this.OrderTotal.Text = "Total";
+            this.OrderTotal.Width = 70;
+            // 
+            // OrderCreatedAt
+            // 
+            this.OrderCreatedAt.Text = "date";
+            this.OrderCreatedAt.Width = 70;
+            // 
+            // cmbUsersInOrders
+            // 
+            this.cmbUsersInOrders.FormattingEnabled = true;
+            this.cmbUsersInOrders.Location = new System.Drawing.Point(17, 13);
+            this.cmbUsersInOrders.Name = "cmbUsersInOrders";
+            this.cmbUsersInOrders.Size = new System.Drawing.Size(121, 21);
+            this.cmbUsersInOrders.TabIndex = 1;
+            this.cmbUsersInOrders.SelectedIndexChanged += new System.EventHandler(this.CmbUserIndexInOrdersChanged);
+            // 
+            // lsvOrderProducts
+            // 
+            this.lsvOrderProducts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.OrdersProductID,
+            this.OrdersProductName,
+            this.OrderProductQuantity,
+            this.OrderProductPrice,
+            this.OrderProductTotal});
+            this.lsvOrderProducts.HideSelection = false;
+            this.lsvOrderProducts.Location = new System.Drawing.Point(315, 76);
+            this.lsvOrderProducts.Name = "lsvOrderProducts";
+            this.lsvOrderProducts.Size = new System.Drawing.Size(450, 321);
+            this.lsvOrderProducts.TabIndex = 0;
+            this.lsvOrderProducts.UseCompatibleStateImageBehavior = false;
+            this.lsvOrderProducts.View = System.Windows.Forms.View.Details;
+            // 
+            // OrdersProductID
+            // 
+            this.OrdersProductID.Text = "id";
+            this.OrdersProductID.Width = 30;
+            // 
+            // OrdersProductName
+            // 
+            this.OrdersProductName.Text = "Product Name";
+            this.OrdersProductName.Width = 200;
+            // 
+            // OrderProductQuantity
+            // 
+            this.OrderProductQuantity.Text = "Quantity";
+            this.OrderProductQuantity.Width = 70;
+            // 
+            // OrderProductPrice
+            // 
+            this.OrderProductPrice.Text = "Price";
+            this.OrderProductPrice.Width = 70;
+            // 
+            // OrderProductTotal
+            // 
+            this.OrderProductTotal.Text = "Total";
+            this.OrderProductTotal.Width = 70;
             // 
             // User
             // 
+            this.User.Controls.Add(this.btnCreateExcel);
             this.User.Controls.Add(this.lsvUser);
             this.User.Controls.Add(this.btnRemoveUser);
             this.User.Controls.Add(this.btnUpdateUser);
@@ -233,6 +343,16 @@
             this.User.TabIndex = 0;
             this.User.Text = "User";
             this.User.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateExcel
+            // 
+            this.btnCreateExcel.Location = new System.Drawing.Point(288, 101);
+            this.btnCreateExcel.Name = "btnCreateExcel";
+            this.btnCreateExcel.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateExcel.TabIndex = 16;
+            this.btnCreateExcel.Text = "Excel";
+            this.btnCreateExcel.UseVisualStyleBackColor = true;
+            this.btnCreateExcel.Click += new System.EventHandler(this.BtnCreateUserExcel_Click);
             // 
             // lsvUser
             // 
@@ -344,6 +464,7 @@
             // 
             // Product
             // 
+            this.Product.Controls.Add(this.btnCreateProductExel);
             this.Product.Controls.Add(this.cmbSuplier);
             this.Product.Controls.Add(this.lsvProducts);
             this.Product.Controls.Add(this.lblProductPrice);
@@ -363,6 +484,16 @@
             this.Product.TabIndex = 1;
             this.Product.Text = "Product";
             this.Product.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateProductExel
+            // 
+            this.btnCreateProductExel.Location = new System.Drawing.Point(335, 137);
+            this.btnCreateProductExel.Name = "btnCreateProductExel";
+            this.btnCreateProductExel.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateProductExel.TabIndex = 32;
+            this.btnCreateProductExel.Text = "Excel";
+            this.btnCreateProductExel.UseVisualStyleBackColor = true;
+            this.btnCreateProductExel.Click += new System.EventHandler(this.BtnCreateProductExel_Click);
             // 
             // cmbSuplier
             // 
@@ -608,11 +739,6 @@
             this.btnAddSuplier.UseVisualStyleBackColor = true;
             this.btnAddSuplier.Click += new System.EventHandler(this.BtnAddNewSuplier_Click);
             // 
-            // CartProductID
-            // 
-            this.CartProductID.Text = "id";
-            this.CartProductID.Width = 30;
-            // 
             // frmStore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -623,6 +749,7 @@
             this.Text = "Store";
             this.tabsStore.ResumeLayout(false);
             this.Store.ResumeLayout(false);
+            this.Orders.ResumeLayout(false);
             this.User.ResumeLayout(false);
             this.User.PerformLayout();
             this.Product.ResumeLayout(false);
@@ -639,7 +766,7 @@
         private System.Windows.Forms.TabPage User;
         private System.Windows.Forms.TabPage Product;
         private System.Windows.Forms.TabPage Store;
-        private System.Windows.Forms.TabPage Cart;
+        private System.Windows.Forms.TabPage Orders;
         private System.Windows.Forms.Label lblUserRole;
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.TextBox txtUserName;
@@ -693,6 +820,20 @@
         private System.Windows.Forms.ComboBox cmbUsersInStore;
         private System.Windows.Forms.Button btnBuy;
         private System.Windows.Forms.ColumnHeader CartProductID;
+        private System.Windows.Forms.ListView lsvOrder;
+        private System.Windows.Forms.ColumnHeader OrderID;
+        private System.Windows.Forms.ColumnHeader OrderUserName;
+        private System.Windows.Forms.ColumnHeader OrderTotal;
+        private System.Windows.Forms.ColumnHeader OrderCreatedAt;
+        private System.Windows.Forms.ComboBox cmbUsersInOrders;
+        private System.Windows.Forms.ListView lsvOrderProducts;
+        private System.Windows.Forms.ColumnHeader OrdersProductID;
+        private System.Windows.Forms.ColumnHeader OrdersProductName;
+        private System.Windows.Forms.ColumnHeader OrderProductQuantity;
+        private System.Windows.Forms.ColumnHeader OrderProductPrice;
+        private System.Windows.Forms.ColumnHeader OrderProductTotal;
+        private System.Windows.Forms.Button btnCreateExcel;
+        private System.Windows.Forms.Button btnCreateProductExel;
     }
 }
 

@@ -1,8 +1,9 @@
-﻿using VeganStore.Models;
+﻿using System.Collections.Generic;
+using VeganStore.Models;
 
-namespace VeganStore
+namespace VeganStore.Controllers
 {
-    internal class OrderController
+    class OrderController
     {
         public static long AddOrder(long productID, int quantity, long cartID)
         {
@@ -19,6 +20,16 @@ namespace VeganStore
             result = dBSQL.InsertOrder(order);
 
             return result;
+        }
+
+        public static List<OrderTotal> GetOrdersByUserID(long userID)
+        {
+            return DBSQL.Instance.GetOrdersByUserID(userID);
+        }
+
+        public static List<OrderProduct> GetOrderProductsByCartID(long cartID)
+        {
+            return DBSQL.Instance.GetOrderProducts(cartID);
         }
     }
 }
